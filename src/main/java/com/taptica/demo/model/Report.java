@@ -2,10 +2,13 @@ package com.taptica.demo.model;
 
 import com.mongodb.lang.NonNull;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.io.Serializable;
+
 @Document(collection = "report")
-public class Report {
+public class Report implements Serializable {
 
     @Id
     private String id;
@@ -13,6 +16,7 @@ public class Report {
     @NonNull
     private String name;
 
+    @Indexed
     @NonNull
     private Integer hour;
 

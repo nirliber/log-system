@@ -12,13 +12,17 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/report")
+@RequestMapping("/reports")
 public class ReportController {
 
-    @Autowired
-    private ReportService reportService;
+    private final ReportService reportService;
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    @Autowired
+    public ReportController(ReportService reportService) {
+        this.reportService = reportService;
+    }
 
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
@@ -41,6 +45,14 @@ public class ReportController {
     public List<Report> getAll() throws ReportServiceException {
         logger.info("Get all Reports API");
         List<Report> reports = reportService.getAll();
+        return reports;
+    }
+
+    @GetMapping("/hours/{hour}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Report> getByHour(@PathVariable Integer hour) throws ReportServiceException {
+        logger.info("Get Reports by hour API with hour {}", hour);
+        List<Report> reports = reportService.getByHour(hour);
         return reports;
     }
 

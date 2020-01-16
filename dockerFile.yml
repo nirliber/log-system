@@ -1,0 +1,17 @@
+version: '3.3'
+
+services:
+
+  mongo:
+    image: mongo:4.0
+    ports:
+      - "27017:27017"
+    restart: always
+    volumes:
+      - /srv/docker/mongodb:/var/lib/mongodb
+
+  rabbitmq:
+    image: rabbitmq:management
+    ports:
+      - "5672:5672"
+      - "15672:15672"

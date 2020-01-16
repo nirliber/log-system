@@ -15,5 +15,7 @@ public interface ReportService {
 
     Report update(String id, Report report) throws ReportServiceException;
 
-    List<Report> getAll();
+    List<Report> getAll() throws ReportServiceException;
+
+    List<Report> getByHour(Integer hour) throws ReportServiceException;
 }

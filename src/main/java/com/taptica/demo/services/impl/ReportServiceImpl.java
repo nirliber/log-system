@@ -60,13 +60,20 @@ public class ReportServiceImpl implements ReportService {
             logger.error("Report with id {} not found", id);
             throw new ResourceNotFoundException(String.format("Report with id {%s} not found", id));
         }
+        report.setId(id);
         Report updated = reportRepository.save(report);
         return updated;
     }
 
     @Override
-    public List<Report> getAll() {
+    public List<Report> getAll() throws ReportServiceException {
         List<Report> result = reportRepository.findAll();
+        return result;
+    }
+
+    @Override
+    public List<Report> getByHour(Integer hour) throws ReportServiceException {
+        List<Report> result = reportRepository.findByHour(hour);
         return result;
     }
 }
