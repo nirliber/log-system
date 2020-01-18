@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.io.File;
+import java.time.format.DateTimeFormatter;
 
 
 @EnableScheduling
@@ -27,6 +28,9 @@ public class LogSystemApplication {
     public static final String ROUTING_KEY = "THIS.IS.SECRET";
 
     public static final File LOG_FILE = new File("reports.log").getAbsoluteFile();
+
+    public static DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd/MM/uuuu HH:mm:ss.SSSSz");
+
 
     //Each minute
     public static final String CRON_SCHEDULER_STRING = "0 * * * * *";
