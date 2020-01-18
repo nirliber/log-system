@@ -13,28 +13,38 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
+import java.io.File;
+
 
 @EnableScheduling
 @SpringBootApplication
 public class LogSystemApplication {
 
-    public static final String topicExchangeName = "log-system-exchange";
+    public static final String TOPIC_EXCHANGE_NAME = "log-system-exchange";
 
-    public static final String queueName = "log-system";
+    public static final String QUEUE_NAME = "log-system";
+
+    public static final String ROUTING_KEY = "THIS.IS.SECRET";
+
+    public static final File LOG_FILE = new File("reports.log").getAbsoluteFile();
+
+    //Each minute
+    public static final String CRON_SCHEDULER_STRING = "0 * * * * *";
+
 
     @Bean
     Queue queue() {
-        return new Queue(queueName, false);
+        return new Queue(QUEUE_NAME, false);
     }
 
     @Bean
     TopicExchange exchange() {
-        return new TopicExchange(topicExchangeName);
+        return new TopicExchange(TOPIC_EXCHANGE_NAME);
     }
 
     @Bean
     Binding binding(Queue queue, TopicExchange exchange) {
-        return BindingBuilder.bind(queue).to(exchange).with("foo.bar.#");
+        return BindingBuilder.bind(queue).to(exchange).with(ROUTING_KEY);
     }
 
     @Bean
@@ -42,7 +52,7 @@ public class LogSystemApplication {
                                              MessageListenerAdapter listenerAdapter) {
         SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
         container.setConnectionFactory(connectionFactory);
-        container.setQueueNames(queueName);
+        container.setQueueNames(QUEUE_NAME);
         container.setMessageListener(listenerAdapter);
         return container;
     }
